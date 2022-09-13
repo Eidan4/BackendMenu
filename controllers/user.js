@@ -10,7 +10,7 @@ const createUser = async(req, res = response) => {
         const name = capitalize(req.body.name);
         const email = req.body.email.toLowerCase();
         const {role} = req.body;
-        const password = req.body.password;
+        const password = req.body.password; 
     
         if(role){
             // role = req.body.role.toLowerCase();
