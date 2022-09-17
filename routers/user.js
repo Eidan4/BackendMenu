@@ -8,6 +8,7 @@ const { validateFields,
 
 const { createUser,
         getUser,
+        getMeserosId,
         getMeseros,
         updateUser,
         deleteUser} = require('../controllers/user');
@@ -26,6 +27,10 @@ router.post('/',[
 router.get('/',[
     validateFields
 ],getUser);
+
+router.get('/:id',[
+    validateFields
+],getMeserosId)
 
 router.get('/meseros',[
     validateFields

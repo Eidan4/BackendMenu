@@ -132,9 +132,24 @@ const getMeseros = async(req, res = response)=>{
     
 }
 
+const getMeserosId = async(req, res = response)=>{
+    const {id} = req.params;
+    if(id){
+        const user = await User.findById(id);
+        if(!user){
+            res.status(404).json({msg:"No existe este usuario"})
+        }
+    }
+
+    const user = await User.findById(id);
+    res.json(user)
+
+}
+
 module.exports = {
     createUser,
     getUser,
+    getMeserosId,
     getMeseros,
     updateUser,
     deleteUser
