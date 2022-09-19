@@ -28,13 +28,14 @@ router.get('/',[
     validateFields
 ],getUser);
 
+router.get('/meseros/',[
+    validateFields
+],getMeseros);
+
 router.get('/:id',[
     validateFields
 ],getMeserosId)
 
-router.get('/meseros',[
-    validateFields
-],getMeseros);
 
 router.patch('/:id',[
     validateFields

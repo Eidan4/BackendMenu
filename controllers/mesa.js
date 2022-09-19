@@ -36,8 +36,15 @@ const getMesa = async (req, res= response) => {
         Mesa.find()
     ]);
     res.json({total, mesa})
+}
 
-
+const getMesasId = async(req, res= response) =>{
+    const {id} = req.params;
+    const mesas = await Mesa.findById(id);
+    if(!mesas){
+        res.status(404).json({msg: 'Mesas not found'});
+    }
+    res.json(mesas);
 }
 
 const updateMesa = async (req, res) => {
@@ -95,6 +102,7 @@ const deleteMesa = async (req, res = response) => {
 module.exports ={
     createMesa,
     getMesa,
+    getMesasId,
     updateMesa,
     deleteMesa
 }

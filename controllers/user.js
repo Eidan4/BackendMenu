@@ -19,7 +19,7 @@ const createUser = async(req, res = response) => {
     
             if ( !rol ) {
                 role = 'usuario_role'
-            }
+            } 
         }
     
         if(name == '' || email == '' || password == ''){
@@ -64,7 +64,7 @@ const updateUser = async (req, res) => {
 
         if(email){
             const user = await User.findOne({email: email});
-            if(user){
+            if(user.id !== id){
                 return res.status(400).json({
                     msg: 'The email is already registered'
                 });
@@ -120,16 +120,11 @@ const deleteUser = async(req, res)=>{
 }
 
 const getMeseros = async(req, res = response)=>{
-    const operator = await User.find({role: "mesero_role"}).exec((err, result)=>{
-        if(err || result.length == 0){
-            res.status(404).json({
-                msg:"No hay meseros"
-            })
-        }else{
-            res.json(result)
-        }
-    })
-    
+    const users = await User.find({"role":"mesero_role"})
+    if(users.length == 0){
+        return res.status(200).json({msg: "No se encontro ningun mesero"})
+    }
+    res.json(users);
 }
 
 const getMeserosId = async(req, res = response)=>{

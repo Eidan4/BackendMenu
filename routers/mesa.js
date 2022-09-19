@@ -8,6 +8,7 @@ const { validateFields,
 
 const { createMesa,
         getMesa,
+        getMesasId,
         updateMesa,
         deleteMesa} = require('../controllers/mesa');
 
@@ -25,6 +26,10 @@ router.post('/',[
 router.get('/',[
     validateFields
 ],getMesa);
+
+router.get('/:id',[
+    validateFields
+],getMesasId); 
 
 router.patch('/:id',[
     validateFields
