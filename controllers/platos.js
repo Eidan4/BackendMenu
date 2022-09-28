@@ -17,11 +17,13 @@ const createPlato = async (req, res=response)=>{
         const {name,description,alerts,prices,archivo,state,category} = req.body;
         // console.log(archivo)
         // console.log(req.files)
-
+        
         if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
             return res.status(400).json({msg:'No files were uploaded'});  
         }
-
+        
+        console.log(req.files);
+        console.log(archivo)
 
         if(category){
             const categorias = await Category.findOne({"name": category})
@@ -214,7 +216,7 @@ const updatePlatosImages = async (req, res=response) => {
 const updatePlatos = async (req, res= response) => {
     const {id} = req.params;
     const {name,description,alerts,prices,state,category} = req.body;
-
+    let cadena1 = "";
     if(id){
         let ids = await Platos.findById(id);
         if(!ids || id == null){
@@ -223,6 +225,23 @@ const updatePlatos = async (req, res= response) => {
             })
         }
     };
+
+    if(req.files.archivo){
+        let images = await Platos.findById(id);
+        let cadena = images.url;
+        // let cadenaseparada = cadena.split('/');
+        for (let i = 0; i < cadena.length; i++) {
+            const element = cadena[i];
+            cadena1 = element.split('/');
+        }
+        console.log(cadena1);
+
+        
+    }
+
+    // if(req.files.archivo){
+    //     console.log("Hola");
+    // }
 
     const platos =  await Platos.findByIdAndUpdate(id,{name,description,alerts,prices,state,category},{new:true});
 
@@ -240,7 +259,7 @@ const deletePlatos = async (req, res=response) => {
             })
         }
     }; 
-
+    
     const platos = await Platos.findByIdAndDelete(id);
 
     if(platos == null){
