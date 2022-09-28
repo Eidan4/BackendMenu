@@ -30,7 +30,6 @@ const createPlato = async (req, res=response)=>{
             }
         }
 
-        console.log(req.files.archivo.length); 
         if(req.files.archivo.length !== undefined){
             for(let i = 0; i < req.files.archivo.length; i++) {
                 let buscar = req.files.archivo[i];
