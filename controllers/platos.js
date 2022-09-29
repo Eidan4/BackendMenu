@@ -174,7 +174,6 @@ const updatePlatosImages = async (req, res=response) => {
     
 
     const {id,collection} = req.params;
-    let url='';
 
     if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
         return res.status(400).json({msg:'No files were uploaded'});
@@ -216,6 +215,7 @@ const updatePlatosImages = async (req, res=response) => {
 
 const updatePlatos = async (req, res= response) => {
     const {id} = req.params;
+    let url='';
     const {name,description,alerts,prices,state,category} = req.body;
     let collection = "";
     if(id){
