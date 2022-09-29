@@ -22,8 +22,8 @@ const createPlato = async (req, res=response)=>{
             return res.status(400).json({msg:'No files were uploaded'});  
         }
         
-        console.log(req.files);
-        console.log(archivo)
+        // console.log(req.files);
+        // console.log(archivo)
 
         if(category){
             const categorias = await Category.findOne({"name": category})
@@ -216,7 +216,8 @@ const updatePlatosImages = async (req, res=response) => {
 const updatePlatos = async (req, res= response) => {
     const {id} = req.params;
     const {name,description,alerts,prices,state,category} = req.body;
-    let cadena1 = "";
+    let collection = "";
+    let url='';
     if(id){
         let ids = await Platos.findById(id);
         if(!ids || id == null){
@@ -229,21 +230,44 @@ const updatePlatos = async (req, res= response) => {
     if(req.files.archivo){
         let images = await Platos.findById(id);
         let cadena = images.url;
+        let modelo;
         // let cadenaseparada = cadena.split('/');
         for (let i = 0; i < cadena.length; i++) {
             const element = cadena[i];
-            cadena1 = element.split('/');
+            collection = element.split('/');
         }
-        console.log(cadena1);
-
         
+        switch (collection[5]) {
+            case 'platos':
+                modelo = await Platos.findById(id);
+                if(!modelo){
+                    return res.status(400).json({msg:'Platos not found'});
+                }
+                break;
+        
+            default:
+                break;
+        }
+    
+        let collection1 =  collection[5];
+        if(modelo.archivo){
+            const pathImagen = path.join(__dirname, '../uploads',collection1,modelo.archivo[0]);
+            if(fs.existsSync(pathImagen)){
+                fs.unlinkSync(pathImagen);
+            }
+        }
+
+        const pathCompleto =  await subirArchivo(req.files.archivo,undefined,collection1);
+        modelo.archivo =  pathCompleto; 
+        url = `${config.host}:${config.port}/api/platos/platos/${pathCompleto}`
+        await modelo.save();
     }
 
     // if(req.files.archivo){
     //     console.log("Hola");
     // }
 
-    const platos =  await Platos.findByIdAndUpdate(id,{name,description,alerts,prices,state,category},{new:true});
+    const platos =  await Platos.findByIdAndUpdate(id,{name,description,alerts,prices,state,category,url},{new:true});
 
     res.json(platos);
 }
@@ -260,6 +284,24 @@ const deletePlatos = async (req, res=response) => {
         }
     }; 
     
+    const eliminar = await Platos.findById(id);
+    if(eliminar == null){
+       return res.status(404).json({msg: 'No se encontro ese ID de platos'});
+    }
+
+   if(eliminar.archivo){
+    for (let i = 0; i < eliminar.url.length; i++) {
+        const element = eliminar.url[i];
+        collection = element.split('/');
+    }
+    const pathImagen = path.join(__dirname, '../uploads',collection[5],eliminar.archivo[0]);
+    if(fs.existsSync(pathImagen)){
+        await fs.unlink(pathImagen,function (error) {
+            console.log(error);
+        });
+    }
+   }
+
     const platos = await Platos.findByIdAndDelete(id);
 
     if(platos == null){
