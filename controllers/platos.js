@@ -174,6 +174,7 @@ const updatePlatosImages = async (req, res=response) => {
     
 
     const {id,collection} = req.params;
+    let url='';
 
     if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
         return res.status(400).json({msg:'No files were uploaded'});
@@ -217,7 +218,6 @@ const updatePlatos = async (req, res= response) => {
     const {id} = req.params;
     const {name,description,alerts,prices,state,category} = req.body;
     let collection = "";
-    let url='';
     if(id){
         let ids = await Platos.findById(id);
         if(!ids || id == null){
@@ -227,7 +227,7 @@ const updatePlatos = async (req, res= response) => {
         }
     };
 
-    if(req.files.archivo){
+    if(req.files !== null){
         let images = await Platos.findById(id);
         let cadena = images.url;
         let modelo;
@@ -263,13 +263,14 @@ const updatePlatos = async (req, res= response) => {
         await modelo.save();
     }
 
-    // if(req.files.archivo){
-    //     console.log("Hola");
-    // }
 
-    const platos =  await Platos.findByIdAndUpdate(id,{name,description,alerts,prices,state,category,url},{new:true});
-
-    res.json(platos);
+    if(url !== ''){
+        const platos =  await Platos.findByIdAndUpdate(id,{name,description,alerts,prices,state,category,url},{new:true});
+        return res.json(platos);
+    }else{
+        const platos =  await Platos.findByIdAndUpdate(id,{name,description,alerts,prices,state,category},{new:true});
+        return res.json(platos);
+    }
 }
 
 const deletePlatos = async (req, res=response) => {
@@ -305,7 +306,7 @@ const deletePlatos = async (req, res=response) => {
     const platos = await Platos.findByIdAndDelete(id);
 
     if(platos == null){
-        res.status(404).json({msg: 'No se encontro ese ID de platos'})
+        return res.status(404).json({msg: 'No se encontro ese ID de platos'})
     }else{
         res.json(platos);
     }
