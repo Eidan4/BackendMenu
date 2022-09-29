@@ -41,7 +41,6 @@ const OrderSchema = Schema({
     },
     total:{
         type:Number,
-        required: [true,'Total is required'],
     }
 },{ timestamps: { createdAt: 'created_at'} });
 

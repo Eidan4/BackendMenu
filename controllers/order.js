@@ -1,21 +1,55 @@
 const { response } = require("express");
+const { find } = require("../models/order");
 
 const Orden = require('../models/order');
+const Platos = require('../models/platos');
+const Mesa = require('../models/mesa');
 
 const createOrden = async (req, res= response) => {
-    try {
-        const {platos,mesa,telephone,state,total} = req.body;
+    // try {
+        const {platos,mesa,telephone,state} = req.body;
+        let lista =[];
+        let total = 0;
 
-        const ordenes = new Orden({platos,mesa,telephone,state,total});
+        if (mesa) {
+            let mesas = await Mesa.findById(mesa);
+            if(!mesas){
+                return res.status(404).json({message: 'Not Found Mesas'});
+            }
+        }
+
+        for (let k = 0; k < platos.length; k++) {
+            let plato = await Platos.findById(platos[k].plato)
+            if(!plato){
+                res.status(404).json({message: `Not Found Plato ${platos[k].plato}`});
+            }
+        }
+
+        for (let i = 0; i < platos.length; i++) {
+            let platoId = platos[i].plato;
+            let precioplato = await Platos.findById(platoId)
+            let precio = precioplato.prices; 
+            let cantidad = platos[i].cantidad
+            total = precio*cantidad
+            lista.push(total);
+        }
+
+        total = 0;
+
+        for (let j = 0; j < lista.length; j++) {
+            total += lista[j];
+        }
+
+        const ordenes = new Orden({platos,mesa,telephone,state,total:total});
 
         await ordenes.save();
         
         const verordenes = await Orden.findById(ordenes.id);
 
         res.json(verordenes);
-    } catch (error) {
-        res.status(404).json({message:"No se pudo crear la orden"})
-    }
+    // } catch (error) {
+    //     res.status(404).json({message:"No se pudo crear la orden"})
+    // }
 }
 
 
