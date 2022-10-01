@@ -16,7 +16,7 @@ const OrderSchema = Schema({
                 type:Schema.Types.ObjectId,
                 ref: 'Platos',
                 required:[true, 'Mesero is required'],
-                autopopulate:{'select':'name prices'}
+                autopopulate:{'select':'name prices url description'}
             },cantidad:{
                 type:Number,
                 required: [true,'Cantidad is required'],

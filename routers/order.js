@@ -37,12 +37,13 @@ router.get('/:id',[
     validateFields
 ],getOrdenId);
 
+router.delete('/:id',[
+    validateFields
+],deleteOrden);
+
 router.patch('/:id',[
     validateFields
 ],updateOrden);
 
-router.delete('/:id',[
-    validateFields
-],deleteOrden);
 
 module.exports = router;
