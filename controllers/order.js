@@ -6,7 +6,7 @@ const Platos = require('../models/platos');
 const Mesa = require('../models/mesa');
 
 const createOrden = async (req, res= response) => {
-    // try {
+    try {
         const {platos,mesa,telephone,state} = req.body;
         let lista =[];
         let total = 0;
@@ -47,9 +47,9 @@ const createOrden = async (req, res= response) => {
         const verordenes = await Orden.findById(ordenes.id);
 
         res.json(verordenes);
-    // } catch (error) {
-    //     res.status(404).json({message:"No se pudo crear la orden"})
-    // }
+    } catch (error) {
+        res.status(404).json({message:"No se pudo crear la orden"})
+    }
 }
 
 
