@@ -20,7 +20,8 @@ const { validExistUserByEmail,
 const router = Router();
 
 router.post('/',[
-    validateFields
+    validateFields,
+    validateJWT, 
 ],createMesa);
 
 router.get('/',[
@@ -32,11 +33,13 @@ router.get('/:id',[
 ],getMesasId); 
 
 router.patch('/:id',[
-    validateFields
+    validateFields,
+    validateJWT, 
 ],updateMesa);
 
 router.delete('/:id',[
-    validateFields
+    validateFields,
+    validateJWT, 
 ],deleteMesa)
 
 module.exports = router;

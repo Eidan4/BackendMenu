@@ -20,6 +20,7 @@ const { validExistUserByEmail,
 const router = Router();
 
 router.post('/',[
+    validateJWT, 
     validateFields
 ],CreateRol);
 
@@ -28,10 +29,12 @@ router.get('/',[
 ],getRol);
 
 router.patch('/:id',[
+    validateJWT, 
     validateFields
 ],updateRol);
 
 router.delete('/:id',[
+    validateJWT, 
     validateFields
 ],deleteRol);
 

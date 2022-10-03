@@ -24,7 +24,7 @@ const PlatosSchema = Schema({
     }],
     state: {
         type: Boolean,
-        defaul:false
+        default:false
     },
     url:[{
         type: String,

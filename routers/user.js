@@ -21,27 +21,33 @@ const { validExistUserByEmail,
 const router = Router();
 
 router.post('/',[
-    validateFields
+    validateFields,
+    validateJWT, 
 ],createUser);
 
 router.get('/',[
-    validateFields
+    validateFields,
+    validateJWT, 
 ],getUser);
 
 router.get('/meseros/',[
-    validateFields
+    validateFields,
+    validateJWT, 
 ],getMeseros);
 
 router.get('/:id',[
+    validateJWT, 
     validateFields
 ],getMeserosId)
 
 
 router.patch('/:id',[
+    validateJWT, 
     validateFields
 ],updateUser);
 
 router.delete('/:id',[
+    validateJWT, 
     validateFields
 ],deleteUser);
 

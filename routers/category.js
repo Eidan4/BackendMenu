@@ -20,6 +20,7 @@ const { validExistUserByEmail,
 const router = Router();
 
 router.post('/',[
+    validateJWT,
     validateFields
 ],createCategory);
 
@@ -32,10 +33,12 @@ router.get('/:id',[
 ],getCategoryId); 
 
 router.patch('/:id',[
+    validateJWT,
     validateFields
 ],updateCategory);
 
 router.delete('/:id',[
+    validateJWT,
     validateFields
 ],deleteCategory);
 

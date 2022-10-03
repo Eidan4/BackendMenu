@@ -26,10 +26,7 @@ router.post('/',[
 ],createOrden);
 
 router.get('/',[
-    validateFields
-],gerOrden);
-
-router.get('/',[
+    validateJWT,
     validateFields
 ],gerOrden);
 
@@ -38,10 +35,12 @@ router.get('/:id',[
 ],getOrdenId);
 
 router.delete('/:id',[
+    validateJWT,
     validateFields
 ],deleteOrden);
 
 router.patch('/:id',[
+    validateJWT,
     validateFields
 ],updateOrden);
 

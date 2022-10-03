@@ -29,6 +29,7 @@ const router = Router();
 
 router.post('/',[
     validateFields,
+    validateJWT, 
     // validarArchivoSubir
 ],createPlato);
 
@@ -52,15 +53,18 @@ router.get('/:collection/:name',[
 router.patch('/:collection/:id',[
     check('id','Id is required of mongo').isMongoId(),
     check('collection').custom(c =>colleccionesPermitidas(c,['user','img'])),
+    validateJWT, 
     validateFields,
     // validarArchivoSubir
 ],updatePlatosImages);
 
 router.patch('/:id',[
+    validateJWT, 
     validateFields
 ],updatePlatos)
 
 router.delete('/:id',[
+    validateJWT, 
     validateFields
 ],deletePlatos);
 

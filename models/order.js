@@ -36,8 +36,7 @@ const OrderSchema = Schema({
     },
     state:{
         type:Boolean,
-        require:false,
-        default:false
+        default:null
     },
     total:{
         type:Number,
