@@ -4,19 +4,28 @@ const { find } = require("../models/order");
 const Orden = require('../models/order');
 const Platos = require('../models/platos');
 const Mesa = require('../models/mesa');
+const Users = require("../models/user");
 
 const createOrden = async (req, res= response) => {
     try {
-        const {platos,mesa,telephone,state} = req.body;
+        const {platos,mesa,telephone,state,userId} = req.body;
         let lista =[];
         let total = 0;
-
+        console.log(userId);
         if (mesa) {
             let mesas = await Mesa.findById(mesa);
             if(!mesas){
-                return res.status(404).json({message: 'Not Found Mesas'});
+                return res.status(400).json({message: 'Not Found Mesas'});
             }
         }
+
+        if(userId){
+            let users = await Users.findById(userId);
+            if(!users){
+                return res.status(400).json({message: 'Not Found Users'});
+            }
+        }
+
 
         for (let k = 0; k < platos.length; k++) {
             let plato = await Platos.findById(platos[k].plato)
@@ -40,7 +49,7 @@ const createOrden = async (req, res= response) => {
             total += lista[j];
         }
 
-        const ordenes = new Orden({platos,mesa,telephone,state,total:total});
+        const ordenes = new Orden({platos,mesa,userId,telephone,state,total:total,userId});
 
         await ordenes.save();
         
@@ -72,6 +81,21 @@ const getOrdenId = async (req, res= response) => {
 
     res.json(ordenes); 
 
+}
+
+const getOrderIdUser = async (req, res) => {
+    const {id} = req.params;
+
+    if(id){
+        let users = await Users.findById(id);
+        if(!users){
+            return res.status(400).json({message: 'Not Found Users'});
+        }
+    }
+
+    const orderUser = await Orden.find({"userId":id});
+
+    res.json(orderUser);
 }
 
 const updateOrden = async (req, res=response) => {
@@ -117,6 +141,7 @@ module.exports = {
     createOrden,
     gerOrden,
     getOrdenId,
+    getOrderIdUser,
     updateOrden,
     deleteOrden
 }

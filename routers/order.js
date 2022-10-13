@@ -10,6 +10,7 @@ const { validateFields,
 const { createOrden,
         gerOrden,
         getOrdenId,
+        getOrderIdUser,
         updateOrden,
         deleteOrden} = require('../controllers/order');
 
@@ -33,6 +34,11 @@ router.get('/',[
 router.get('/:id',[
     validateFields
 ],getOrdenId);
+
+router.get('/user/:id',[
+    validateFields,
+    validateJWT
+],getOrderIdUser);
 
 router.delete('/:id',[
     validateJWT,

@@ -18,7 +18,7 @@ const subirArchivo = (files,extensionValidas = ['jpg', 'png', 'gif','PNG'],carpe
             res.status(404).json({message: error.message})
         }
         
-        const nombreTemp = v4() + '.' + extension;
+        const nombreTemp = v4() + '.' + 'WebP';
         const uploadPath = path.join(__dirname,'../uploads/' , carpeta, nombreTemp);
 
         archivo.mv(uploadPath, (err)=> {

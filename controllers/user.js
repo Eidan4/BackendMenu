@@ -6,7 +6,7 @@ const Role = require('../models/role');
 const { capitalize } = require("../helpers/capitalizeStr");
 
 const createUser = async(req, res = response) => {
-    // try {
+    try {
         const name = capitalize(req.body.name);
         const email = req.body.email.toLowerCase();
         const {role} = req.body;
@@ -42,9 +42,9 @@ const createUser = async(req, res = response) => {
             user,
             userAuth
         });
-    // } catch (error) {
-    //     res.status(404).json('Ocurrio un error') 
-    // }
+    } catch (error) {
+        res.status(404).json('Ocurrio un error') 
+    }
 }
 
 const getUser = async (req, res) => {

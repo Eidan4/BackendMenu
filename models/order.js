@@ -27,7 +27,6 @@ const OrderSchema = Schema({
     mesa:{
         type:Schema.Types.ObjectId,
         ref:'Mesa',
-        // required:[true, 'Mesa is required'],
         autopopulate:{'select':'name'}
     },
     telephone:{
@@ -40,6 +39,11 @@ const OrderSchema = Schema({
     },
     total:{
         type:Number,
+    },
+    userId:{
+        type:Schema.Types.ObjectId,
+        ref:'User',
+        autopopulate:{'select':'name'}
     }
 },{ timestamps: { createdAt: 'created_at'} });
 
